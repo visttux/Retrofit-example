@@ -4,8 +4,13 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.Iterator;
 import java.util.List;
 
 import retrofit.Callback;
@@ -38,15 +43,24 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void failure(RetrofitError error) {
-                d("retrofit", "failure");
+                d("retrofit", error.getMessage());
             }
         });
     }
 
     private void consumeApiData(List<ApiservicesData> apiservicesData) {
-        String nombre = apiservicesData.get(1).getNombre();
-        TextView tv = (TextView) findViewById(R.id.textview);
-        tv.setText(nombre);
+        String items[] = new String[apiservicesData.size()*3];
+
+        for(int i=0; i<apiservicesData.size();++i) {
+            items[i*3+0] = apiservicesData.get(i).getNombre();
+            items[i*3+1]  = String.valueOf(apiservicesData.get(i).getLatitud());
+            items[i*3+2] = String.valueOf(apiservicesData.get(i).getLongitud());
+        }
+
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, items);
+        ListView listView = (ListView) findViewById(R.id.listview);
+        listView.setAdapter(adapter);
     }
 
 
