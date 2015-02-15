@@ -5,12 +5,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
-import java.util.Iterator;
 import java.util.List;
 
 import retrofit.Callback;
@@ -34,10 +30,10 @@ public class MainActivity extends ActionBarActivity {
 
         Apiservice service = restAdapter.create(Apiservice.class);
 
-        service.listPersonas(new Callback<List<ApiservicesData>>() {
+        service.listPersonas(new Callback<List<PersonaData>>() {
             @Override
-            public void success(List<ApiservicesData> apiservicesData, Response response) {
-                consumeApiData(apiservicesData);
+            public void success(List<PersonaData> data, Response response) {
+                consumeApiData(data);
                 return;
             }
 
@@ -48,17 +44,8 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
-    private void consumeApiData(List<ApiservicesData> apiservicesData) {
-        String items[] = new String[apiservicesData.size()*3];
-
-        for(int i=0; i<apiservicesData.size();++i) {
-            items[i*3+0] = apiservicesData.get(i).getNombre();
-            items[i*3+1]  = String.valueOf(apiservicesData.get(i).getLatitud());
-            items[i*3+2] = String.valueOf(apiservicesData.get(i).getLongitud());
-        }
-
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, items);
+    private void consumeApiData(List<PersonaData> data) {
+        ArrayAdapter<PersonaData> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, data);
         ListView listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(adapter);
     }

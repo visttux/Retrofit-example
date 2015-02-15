@@ -7,5 +7,5 @@ import retrofit.http.GET;
 
 public interface Apiservice {
     @GET("/personas.json")
-    void listPersonas(Callback<List<ApiservicesData>> personasCallback);
+    void listPersonas(Callback<List<PersonaData>> personasCallback);
 }
